@@ -1,0 +1,18 @@
+<IfModule mod_headers.c>
+  # Define o cache para arquivos de imagem, vídeo, audio, pdf e webfonts por 1 ano
+  <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|svg|webp|avif|mp4|webm|ogg|mp3|wav|woff|woff2|ttf|eot|otf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Define o cache para arquivos CSS e JavaScript por 1 ano
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Impede o cache do arquivo HTML principal para garantir que os usuários sempre recebam a versão mais recente
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
