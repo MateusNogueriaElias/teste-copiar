@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -6,8 +7,15 @@
     <title>Fire Domínios - Agência Digital que Transforma Negócios</title>
     <meta name="description" content="Criamos sites, landing pages e soluções digitais que convertem visitantes em clientes. Sua presença digital extraordinária começa aqui!" />
     <meta name="author" content="Fire Domínios" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/poppins-v23-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Favicon -->
     <link rel="icon" href="/lovable-uploads/f7ad8c87-e46c-4a74-bbc3-772f8f211c80.png" type="image/png">
 
+    <!-- Meta tags otimizadas -->
     <meta property="og:title" content="Fire Domínios - Agência Digital que Transforma Negócios" />
     <meta property="og:description" content="Criamos sites, landing pages e soluções digitais que convertem visitantes em clientes. Sua presença digital extraordinária começa aqui!" />
     <meta property="og:type" content="website" />
@@ -15,22 +23,38 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@firedominios" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-     
-    <link rel="preload" href="/fonts/poppins-v23-latin-700.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
     
+    <!-- Performance hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
 
-        <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics otimizado -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'G-WLKKCMQEZ5');
+      gtag('config', 'G-WLKKCMQEZ5', {
+        page_title: 'Fire Domínios - Home',
+        page_location: window.location.href
+      });
     </script>
 
-    </head>
+    <!-- Critical CSS inline (seria movido para inline na produção) -->
+    <style>
+      /* Critical above-the-fold styles */
+      body { 
+        font-family: 'Inter', sans-serif; 
+        margin: 0; 
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      .hero-section {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #eab308 100%);
+      }
+    </style>
+  </head>
 
   <body>
     <div id="root"></div>
