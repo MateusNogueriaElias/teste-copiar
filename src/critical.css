@@ -1,0 +1,54 @@
+
+/* CSS Crítico - apenas o necessário para o primeiro conteúdo visível */
+@import "./fonts.css";
+
+/* Tailwind base crítico */
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  line-height: inherit;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #FFFAF7 0%, #FFF7F1 50%, #FFEDE1 100%);
+  background-attachment: fixed;
+}
+
+/* Gradientes críticos */
+.fire-gradient {
+  background: linear-gradient(135deg, #f54e01 0%, #e53b01 50%, #feb800 100%);
+  box-shadow: 0 15px 35px rgba(245, 78, 1, 0.25);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Classes de utilidade críticas */
+.font-inter { font-family: 'Inter', sans-serif; }
+.font-poppins { font-family: 'Poppins', sans-serif; }
+.min-h-screen { min-height: 100vh; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.relative { position: relative; }
+.absolute { position: absolute; }
+.inset-0 { inset: 0; }
+.z-10 { z-index: 10; }
+.text-center { text-align: center; }
+.text-white { color: #ffffff; }
+.font-bold { font-weight: 700; }
+.leading-tight { line-height: 1.25; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.max-w-7xl { max-width: 80rem; }

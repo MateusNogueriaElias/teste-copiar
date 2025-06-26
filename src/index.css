@@ -1,10 +1,11 @@
-/* Carregamento crítico inline - mova para <head> */
+
+/* CSS não-crítico - carrega após o inicial */
 @import "./fonts.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Crítico - Variáveis e base */
+/* Variáveis CSS completas */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -58,29 +59,11 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: 'Inter', sans-serif;
-    /* Gradiente simplificado para melhor performance */
-    background: linear-gradient(135deg, #FFFAF7 0%, #FFF7F1 50%, #FFEDE1 100%);
-    background-attachment: fixed;
   }
 }
 
-/* Utilities críticos */
+/* Utilities não críticos */
 @layer utilities {
-  .font-inter {
-    font-family: 'Inter', sans-serif;
-  }
-  .font-poppins {
-    font-family: 'Poppins', sans-serif;
-  }
-
-  /* Gradientes otimizados - usando transform3d para GPU */
-  .fire-gradient {
-    background: linear-gradient(135deg, #f54e01 0%, #e53b01 50%, #feb800 100%);
-    box-shadow: 0 15px 35px rgba(245, 78, 1, 0.25);
-    transform: translate3d(0, 0, 0); /* Force GPU acceleration */
-  }
-
   .fire-gradient-reverse {
     background: linear-gradient(135deg, #feb800 0%, #e53b01 50%, #f54e01 100%);
     box-shadow: 0 15px 35px rgba(245, 78, 1, 0.25);
@@ -106,10 +89,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    /* Removido text-shadow para melhor performance */
   }
 
-  /* Glassmorphism otimizado - só carrega em telas maiores */
+  /* Glassmorphism otimizado */
   .glass-morphism {
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(245, 78, 1, 0.15);
@@ -133,7 +115,7 @@
   }
 }
 
-/* Animações otimizadas - usando will-change e transform3d */
+/* Animações otimizadas - carregam após o crítico */
 .animate-float {
   animation: float 6s ease-in-out infinite;
   will-change: transform;
@@ -169,7 +151,7 @@
   will-change: transform;
 }
 
-/* Keyframes otimizados */
+/* Keyframes */
 @keyframes float {
   0%, 100% { transform: translate3d(0, 0px, 0) rotate(0deg); }
   25% { transform: translate3d(0, -8px, 0) rotate(0.5deg); }
@@ -231,7 +213,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* Hover effects otimizados */
+/* Hover effects */
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
@@ -252,7 +234,7 @@
   transform: scale3d(1.03, 1.03, 1);
 }
 
-/* Particle background otimizado */
+/* Particle background */
 .particle-bg {
   position: relative;
   overflow: hidden;
@@ -279,7 +261,7 @@
   66% { transform: translate3d(-15px, 15px, 0) rotate(180deg); }
 }
 
-/* Scroll reveal otimizado */
+/* Scroll reveal */
 .scroll-reveal {
   opacity: 0;
   transform: translate3d(0, 20px, 0);
@@ -292,9 +274,8 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Media queries para otimização mobile */
+/* Otimizações para mobile */
 @media (max-width: 767px) {
-  /* Desabilita animações pesadas em mobile */
   .animate-float,
   .animate-pulse-glow,
   .animate-bounce-subtle,
@@ -302,20 +283,17 @@
     animation: none;
   }
   
-  /* Simplifica efeitos hover em mobile */
   .hover-lift:hover,
   .hover-glow:hover {
     transform: none;
     box-shadow: none;
   }
   
-  /* Remove particle background em mobile */
   .particle-bg::before {
     display: none;
   }
 }
 
-/* Prefers-reduced-motion para acessibilidade */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
