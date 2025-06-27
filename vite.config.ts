@@ -28,6 +28,8 @@ export default defineConfig(({ mode }) => ({
 
   // Otimizações agressivas para performance
   build: {
+    target: 'esnext',
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -44,12 +46,7 @@ export default defineConfig(({ mode }) => ({
           ],
         },
       },
-    },
-    // Otimizações para reduzir bundle size
-    target: 'esnext',
-    minify: mode === 'production' ? 'esbuild' : false,
-    // Tree shaking mais agressivo
-    rollupOptions: {
+      // Tree shaking mais agressivo
       treeshake: {
         moduleSideEffects: false,
         propertyReadSideEffects: false,
