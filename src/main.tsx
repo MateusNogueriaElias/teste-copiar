@@ -62,9 +62,9 @@ const intelligentPreload = () => {
     // Delay entre preloads para não impactar a performance inicial
     preloadSequence.reduce((promise, importFn, index) => 
       promise.then(() => 
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
           setTimeout(() => {
-            importFn().then(resolve).catch(() => resolve(null));
+            importFn().then(() => resolve()).catch(() => resolve());
           }, 200 * (index + 1));
         })
       ), 

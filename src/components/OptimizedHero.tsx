@@ -82,7 +82,7 @@ const OptimizedHero = memo(() => {
               onMouseEnter={() => {
                 // Preload da página de contato no hover
                 if (isDesktop) {
-                  import('../../pages/Contato').catch(() => {});
+                  import('../pages/Contato').catch(() => {});
                 }
               }}
             >
@@ -99,7 +99,7 @@ const OptimizedHero = memo(() => {
               onMouseEnter={() => {
                 // Preload da página de serviços no hover
                 if (isDesktop) {
-                  import('../../pages/Servicos').catch(() => {});
+                  import('../pages/Servicos').catch(() => {});
                 }
               }}
             >
