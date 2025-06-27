@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Rocket, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Lazy load de ícones não críticos para reduzir TBT
+// Lazy load apenas ícones não-críticos
 const LazyZap = lazy(() => import('lucide-react').then(module => ({ default: module.Zap })));
 const LazyTarget = lazy(() => import('lucide-react').then(module => ({ default: module.Target })));
 
@@ -14,18 +14,20 @@ const OptimizedHero = memo(() => {
       <div className="absolute inset-0 fire-gradient opacity-95"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/10"></div>
       
-      {/* Floating Elements otimizados - lazy load para não impactar LCP */}
-      <Suspense fallback={null}>
-        <div className="absolute top-16 sm:top-20 left-4 sm:left-10 animate-float">
-          <Sparkles className="h-8 w-8 sm:h-16 sm:w-16 text-orange-200 opacity-60" />
-        </div>
-        <div className="absolute top-1/3 right-8 sm:right-20 animate-float" style={{ animationDelay: '2s' }}>
-          <LazyZap className="h-10 w-10 sm:h-20 sm:w-20 text-white opacity-40" />
-        </div>
-        <div className="absolute bottom-1/4 left-1/4 animate-float hidden sm:block" style={{ animationDelay: '4s' }}>
-          <LazyTarget className="h-12 w-12 text-orange-200 opacity-50" />
-        </div>
-      </Suspense>
+      {/* Floating Elements - lazy load apenas em desktop */}
+      {window.innerWidth > 768 && (
+        <Suspense fallback={null}>
+          <div className="absolute top-16 sm:top-20 left-4 sm:left-10 animate-float">
+            <Sparkles className="h-8 w-8 sm:h-16 sm:w-16 text-orange-200 opacity-60" />
+          </div>
+          <div className="absolute top-1/3 right-8 sm:right-20 animate-float" style={{ animationDelay: '2s' }}>
+            <LazyZap className="h-10 w-10 sm:h-20 sm:w-20 text-white opacity-40" />
+          </div>
+          <div className="absolute bottom-1/4 left-1/4 animate-float hidden sm:block" style={{ animationDelay: '4s' }}>
+            <LazyTarget className="h-12 w-12 text-orange-200 opacity-50" />
+          </div>
+        </Suspense>
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white hero-content">
         <div>
@@ -35,21 +37,21 @@ const OptimizedHero = memo(() => {
             <span className="text-xs sm:text-sm font-medium">Agência Digital #1 em Resultados</span>
           </div>
           
-          {/* Título principal - elemento LCP otimizado */}
+          {/* Título principal - LCP otimizado */}
           <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
             Sua Empresa
             <span className="block text-orange-200 font-black">Dominando</span>
             <span className="block text-orange-100">a Internet</span>
           </h1>
           
-          {/* Subtítulo otimizado */}
+          {/* Subtítulo */}
           <p className="font-sans text-lg sm:text-xl md:text-3xl mb-8 sm:mb-12 max-w-4xl mx-auto font-light leading-relaxed px-4 sm:px-0">
             Criamos sites que não apenas impressionam, mas 
             <span className="font-bold text-orange-200"> transformam visitantes em clientes fiéis </span> 
             e fazem sua receita explodir
           </p>
           
-          {/* Botões com loading lazy para não impactar LCP */}
+          {/* Botões otimizados */}
           <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 justify-center items-center px-4 sm:px-0">
             <Link to="/contato" className="w-full sm:w-auto">
               <Button size="lg" className="w-full sm:w-auto bg-white text-fire-dark hover:bg-orange-50 hover:text-fire-primary px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold hover-lift hover-glow rounded-full shadow-2xl">

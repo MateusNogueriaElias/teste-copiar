@@ -1,22 +1,22 @@
 
 import { memo, lazy, Suspense } from 'react';
 
-// Lazy load otimizado dos componentes
+// Lazy load otimizado
 const OptimizedHero = lazy(() => import('@/components/OptimizedHero'));
 const ServicesSection = lazy(() => import('@/components/ServicesSection'));
 const BenefitsSection = lazy(() => import('@/components/BenefitsSection'));
 const CTASection = lazy(() => import('@/components/CTASection'));
 
-// Skeleton otimizado para não impactar CLS
+// Skeleton mais leve
 const SectionSkeleton = memo(() => (
   <div className="py-16 sm:py-32 bg-gradient-to-br from-orange-50 to-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="space-y-8">
-        <div className="h-8 bg-orange-200 rounded w-1/2 mx-auto loading-skeleton"></div>
-        <div className="h-4 bg-orange-100 rounded w-3/4 mx-auto loading-skeleton"></div>
+        <div className="h-8 bg-orange-200 rounded w-1/2 mx-auto"></div>
+        <div className="h-4 bg-orange-100 rounded w-3/4 mx-auto"></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-64 bg-orange-100 rounded-lg loading-skeleton"></div>
+            <div key={i} className="h-64 bg-orange-100 rounded-lg"></div>
           ))}
         </div>
       </div>
@@ -29,7 +29,7 @@ SectionSkeleton.displayName = 'SectionSkeleton';
 const Home = memo(() => {
   return (
     <div className="overflow-hidden">
-      {/* Hero Section - Prioridade máxima para LCP */}
+      {/* Hero Section - Prioridade máxima */}
       <Suspense fallback={
         <section className="relative min-h-screen flex items-center justify-center fire-gradient">
           <div className="absolute inset-0 bg-black/20"></div>
@@ -45,7 +45,7 @@ const Home = memo(() => {
         <OptimizedHero />
       </Suspense>
 
-      {/* Seções não críticas com Intersection Observer para lazy loading */}
+      {/* Seções não críticas - carregamento lazy inteligente */}
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>

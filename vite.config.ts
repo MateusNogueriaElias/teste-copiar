@@ -26,24 +26,51 @@ export default defineConfig(({ mode }) => ({
     },
   },
 
-  // Otimizações específicas para performance
+  // Otimizações agressivas para performance
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['lucide-react', '@radix-ui/react-slot'],
+          // Vendor chunk otimizado
+          'react-vendor': ['react', 'react-dom'],
+          'router': ['react-router-dom'],
+          // UI components em chunk separado
+          'ui-components': ['lucide-react'],
+          // Radix UI components
+          'radix-ui': [
+            '@radix-ui/react-slot',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-popover'
+          ],
         },
       },
     },
-    // Otimizações para reduzir TBT
+    // Otimizações para reduzir bundle size
     target: 'esnext',
     minify: mode === 'production' ? 'esbuild' : false,
+    // Tree shaking mais agressivo
+    rollupOptions: {
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
+      },
+    },
   },
 
-  // Otimizações de dependencies
+  // Otimizações de dependencies para reduzir JavaScript não utilizado
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
-    exclude: ['lucide-react'],
+    exclude: ['lucide-react'], // Lazy load apenas os ícones necessários
+  },
+
+  // Configurações para reduzir CSS blocking
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Remove CSS não utilizado
+        outputStyle: 'compressed',
+      },
+    },
   },
 }));

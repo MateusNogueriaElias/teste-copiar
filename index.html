@@ -26,7 +26,7 @@
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
     
-    <!-- CSS Crítico Inline - melhora FCP drasticamente -->
+    <!-- CSS Crítico Inline - otimizado para menor tamanho -->
     <style>
       /* Fontes críticas inline */
       @font-face {
@@ -51,7 +51,7 @@
         src: url('/fonts/poppins-v23-latin-600.woff2') format('woff2');
       }
       
-      /* Reset crítico */
+      /* Reset crítico minificado */
       *, *::before, *::after {
         box-sizing: border-box;
         border-width: 0;
@@ -74,14 +74,14 @@
         background-attachment: fixed;
       }
       
-      /* Fire gradient crítico - exatamente como no original */
+      /* Fire gradient crítico */
       .fire-gradient {
         background: linear-gradient(135deg, #f54e01 0%, #e53b01 50%, #feb800 100%);
         box-shadow: 0 15px 35px rgba(245, 78, 1, 0.25);
         transform: translate3d(0, 0, 0);
       }
       
-      /* Classes Tailwind críticas para LCP */
+      /* Classes Tailwind críticas compactadas */
       .min-h-screen { min-height: 100vh; }
       .flex { display: flex; }
       .items-center { align-items: center; }
@@ -94,6 +94,7 @@
       .text-white { color: rgb(255 255 255); }
       .font-bold { font-weight: 700; }
       .font-poppins { font-family: 'Poppins', sans-serif; }
+      .font-black { font-weight: 900; }
       .leading-tight { line-height: 1.25; }
       .mx-auto { margin-left: auto; margin-right: auto; }
       .max-w-7xl { max-width: 80rem; }
@@ -105,7 +106,6 @@
       .block { display: block; }
       .text-orange-200 { color: rgb(254 215 170); }
       .text-orange-100 { color: rgb(255 237 213); }
-      .font-black { font-weight: 900; }
       
       /* Media queries críticas */
       @media (min-width: 640px) {
@@ -124,51 +124,26 @@
         .lg\\:px-8 { padding-left: 2rem; padding-right: 2rem; }
       }
       
-      /* Previne CLS do hero */
+      /* Hero content otimizado */
       .hero-content {
         min-height: 400px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
-      
-      /* Loading otimizado */
-      .loading-skeleton {
-        background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
-        background-size: 200% 100%;
-        animation: shimmer 2s infinite;
-      }
-      
-      @keyframes shimmer {
-        0% { background-position: -200% 0; }
-        100% { background-position: 200% 0; }
-      }
     </style>
-
-    <!-- Google Analytics - carregamento otimizado -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-WLKKCMQEZ5', {
-        page_title: 'Fire Domínios - Home',
-        custom_map: {'metric1': 'LCP'}
-      });
-    </script>
   </head>
 
   <body>
-    <!-- Hero skeleton para melhor LCP - mantém layout exato -->
+    <!-- Hero skeleton otimizado -->
     <div id="hero-skeleton" class="min-h-screen flex items-center justify-center fire-gradient">
       <div class="absolute inset-0 bg-black" style="opacity: 0.2;"></div>
       <div class="relative z-10 max-w-7xl mx-auto px-4 text-center text-white hero-content">
-        <div class="loading-skeleton" style="background: transparent;">
-          <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
-            Sua Empresa
-            <span class="block text-orange-200 font-black">Dominando</span>
-            <span class="block text-orange-100">a Internet</span>
-          </h1>
-        </div>
+        <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
+          Sua Empresa
+          <span class="block text-orange-200 font-black">Dominando</span>
+          <span class="block text-orange-100">a Internet</span>
+        </h1>
       </div>
     </div>
     
@@ -176,11 +151,10 @@
     
     <!-- Script principal otimizado -->
     <script>
-      // Remove skeleton quando React carregar - melhora LCP
+      // Remove skeleton quando React carregar
       const heroSkeleton = document.getElementById('hero-skeleton');
       const root = document.getElementById('root');
       
-      // Observer otimizado para melhor performance
       const observer = new MutationObserver(function(mutations) {
         for (let mutation of mutations) {
           if (mutation.type === 'childList' && root.children.length > 0) {
@@ -193,20 +167,45 @@
       
       observer.observe(root, { childList: true });
       
-      // Fallback mais agressivo
+      // Fallback
       setTimeout(function() {
         if (heroSkeleton) heroSkeleton.style.display = 'none';
       }, 1500);
     </script>
     
-    <!-- Analytics otimizado - não bloqueia render -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5"></script>
-    
     <!-- Módulo principal -->
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- CSS não-crítico com preload -->
+    <!-- CSS não-crítico com preload otimizado -->
     <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
+    
+    <!-- Analytics otimizado - carregamento assíncrono não-bloqueante -->
+    <script>
+      // Inicialização otimizada do Google Analytics
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WLKKCMQEZ5', {
+        page_title: 'Fire Domínios - Home',
+        transport_type: 'beacon',
+        custom_map: {'metric1': 'LCP'}
+      });
+      
+      // Carregamento assíncrono não-bloqueante
+      function loadAnalytics() {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5';
+        document.head.appendChild(script);
+      }
+      
+      // Carrega analytics após o conteúdo principal
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadAnalytics);
+      } else {
+        setTimeout(loadAnalytics, 1000);
+      }
+    </script>
   </body>
 </html>
