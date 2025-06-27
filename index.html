@@ -17,127 +17,54 @@
     <meta name="twitter:site" content="@firedominios" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
      
-    <!-- Preload fontes críticas - maior prioridade -->
+    <!-- Preconnect otimizado -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    
+    <!-- Preload recursos críticos por prioridade -->
     <link rel="preload" href="/fonts/poppins-v23-latin-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="/fonts/poppins-v23-latin-600.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     
-    <!-- DNS prefetch para recursos externos -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com">
-    <link rel="dns-prefetch" href="//www.googletagmanager.com">
-    
-    <!-- CSS Crítico Inline - otimizado para menor tamanho -->
+    <!-- CSS Crítico Ultra Otimizado -->
     <style>
-      /* Fontes críticas inline */
-      @font-face {
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url('/fonts/poppins-v23-latin-700.woff2') format('woff2');
-      }
-      @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('/fonts/inter-v19-latin-regular.woff2') format('woff2');
-      }
-      @font-face {
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 600;
-        font-display: swap;
-        src: url('/fonts/poppins-v23-latin-600.woff2') format('woff2');
-      }
+      /* Fontes críticas com display swap otimizado */
+      @font-face{font-family:'Poppins';font-style:normal;font-weight:700;font-display:swap;src:url('/fonts/poppins-v23-latin-700.woff2') format('woff2')}
+      @font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/inter-v19-latin-regular.woff2') format('woff2')}
+      @font-face{font-family:'Poppins';font-style:normal;font-weight:600;font-display:swap;src:url('/fonts/poppins-v23-latin-600.woff2') format('woff2')}
       
-      /* Reset crítico minificado */
-      *, *::before, *::after {
-        box-sizing: border-box;
-        border-width: 0;
-        border-style: solid;
-        border-color: currentColor;
-      }
+      /* Reset minificado */
+      *,*::before,*::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:currentColor}
+      html{line-height:1.5;-webkit-text-size-adjust:100%;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif}
+      body{margin:0;line-height:inherit;font-family:'Inter',sans-serif;background:linear-gradient(135deg,#FFFAF7 0%,#FFF7F1 50%,#FFEDE1 100%);background-attachment:fixed}
       
-      html { 
-        line-height: 1.5; 
-        -webkit-text-size-adjust: 100%; 
-        tab-size: 4; 
-        font-family: ui-sans-serif, system-ui, sans-serif; 
-      }
+      /* Gradient crítico otimizado */
+      .fire-gradient{background:linear-gradient(135deg,#f54e01 0%,#e53b01 50%,#feb800 100%);box-shadow:0 15px 35px rgba(245,78,1,0.25);transform:translate3d(0,0,0)}
       
-      body { 
-        margin: 0; 
-        line-height: inherit; 
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(135deg, #FFFAF7 0%, #FFF7F1 50%, #FFEDE1 100%);
-        background-attachment: fixed;
-      }
+      /* Utilities críticas compactadas */
+      .min-h-screen{min-height:100vh}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}.relative{position:relative}.absolute{position:absolute}.inset-0{inset:0}.z-10{z-index:10}.text-center{text-align:center}.text-white{color:#fff}.font-bold{font-weight:700}.font-poppins{font-family:'Poppins',sans-serif}.font-black{font-weight:900}.leading-tight{line-height:1.25}.mx-auto{margin-left:auto;margin-right:auto}.max-w-7xl{max-width:80rem}.px-4{padding-left:1rem;padding-right:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.block{display:block}.text-orange-200{color:#fed6aa}.text-orange-100{color:#ffedd5}
       
-      /* Fire gradient crítico */
-      .fire-gradient {
-        background: linear-gradient(135deg, #f54e01 0%, #e53b01 50%, #feb800 100%);
-        box-shadow: 0 15px 35px rgba(245, 78, 1, 0.25);
-        transform: translate3d(0, 0, 0);
-      }
+      /* Media queries críticas minificadas */
+      @media (min-width:640px){.sm\\:text-5xl{font-size:3rem;line-height:1}.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\\:px-0{padding-left:0;padding-right:0}.sm\\:mb-8{margin-bottom:2rem}}
+      @media (min-width:768px){.md\\:text-7xl{font-size:4.5rem;line-height:1}}
+      @media (min-width:1024px){.lg\\:text-8xl{font-size:6rem;line-height:1}.lg\\:px-8{padding-left:2rem;padding-right:2rem}}
       
-      /* Classes Tailwind críticas compactadas */
-      .min-h-screen { min-height: 100vh; }
-      .flex { display: flex; }
-      .items-center { align-items: center; }
-      .justify-center { justify-content: center; }
-      .relative { position: relative; }
-      .absolute { position: absolute; }
-      .inset-0 { inset: 0px; }
-      .z-10 { z-index: 10; }
-      .text-center { text-align: center; }
-      .text-white { color: rgb(255 255 255); }
-      .font-bold { font-weight: 700; }
-      .font-poppins { font-family: 'Poppins', sans-serif; }
-      .font-black { font-weight: 900; }
-      .leading-tight { line-height: 1.25; }
-      .mx-auto { margin-left: auto; margin-right: auto; }
-      .max-w-7xl { max-width: 80rem; }
-      .px-4 { padding-left: 1rem; padding-right: 1rem; }
-      .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-      .mb-6 { margin-bottom: 1.5rem; }
-      .mb-8 { margin-bottom: 2rem; }
-      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-      .block { display: block; }
-      .text-orange-200 { color: rgb(254 215 170); }
-      .text-orange-100 { color: rgb(255 237 213); }
+      /* Hero skeleton otimizado com opacity */
+      .hero-content{min-height:400px;display:flex;align-items:center;justify-content:center}
+      #hero-skeleton{will-change:opacity;transition:opacity .3s ease}
       
-      /* Media queries críticas */
-      @media (min-width: 640px) {
-        .sm\\:text-5xl { font-size: 3rem; line-height: 1; }
-        .sm\\:px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
-        .sm\\:px-0 { padding-left: 0px; padding-right: 0px; }
-        .sm\\:mb-8 { margin-bottom: 2rem; }
-      }
-      
-      @media (min-width: 768px) {
-        .md\\:text-7xl { font-size: 4.5rem; line-height: 1; }
-      }
-      
-      @media (min-width: 1024px) {
-        .lg\\:text-8xl { font-size: 6rem; line-height: 1; }
-        .lg\\:px-8 { padding-left: 2rem; padding-right: 2rem; }
-      }
-      
-      /* Hero content otimizado */
-      .hero-content {
-        min-height: 400px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      /* Preload de hover states apenas em desktop */
+      @media (min-width:768px){
+        .hover\\:scale-110:hover{transform:scale3d(1.1,1.1,1)}
+        .transition-transform{transition:transform .3s ease}
       }
     </style>
   </head>
 
   <body>
-    <!-- Hero skeleton otimizado -->
+    <!-- Hero skeleton ultra otimizado -->
     <div id="hero-skeleton" class="min-h-screen flex items-center justify-center fire-gradient">
-      <div class="absolute inset-0 bg-black" style="opacity: 0.2;"></div>
+      <div class="absolute inset-0 bg-black" style="opacity:0.2"></div>
       <div class="relative z-10 max-w-7xl mx-auto px-4 text-center text-white hero-content">
         <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
           Sua Empresa
@@ -149,16 +76,16 @@
     
     <div id="root"></div>
     
-    <!-- Script principal otimizado -->
+    <!-- Script de transição otimizado -->
     <script>
-      // Remove skeleton quando React carregar
       const heroSkeleton = document.getElementById('hero-skeleton');
       const root = document.getElementById('root');
       
       const observer = new MutationObserver(function(mutations) {
         for (let mutation of mutations) {
           if (mutation.type === 'childList' && root.children.length > 0) {
-            heroSkeleton.style.display = 'none';
+            heroSkeleton.style.opacity = '0';
+            setTimeout(() => heroSkeleton.style.display = 'none', 300);
             observer.disconnect();
             break;
           }
@@ -167,9 +94,12 @@
       
       observer.observe(root, { childList: true });
       
-      // Fallback
-      setTimeout(function() {
-        if (heroSkeleton) heroSkeleton.style.display = 'none';
+      // Fallback otimizado
+      setTimeout(() => {
+        if (heroSkeleton) {
+          heroSkeleton.style.opacity = '0';
+          setTimeout(() => heroSkeleton.style.display = 'none', 300);
+        }
       }, 1500);
     </script>
     
@@ -180,32 +110,47 @@
     <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
     
-    <!-- Analytics otimizado - carregamento assíncrono não-bloqueante -->
+    <!-- Analytics ultra otimizado - não bloqueia renderização -->
     <script>
-      // Inicialização otimizada do Google Analytics
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-WLKKCMQEZ5', {
         page_title: 'Fire Domínios - Home',
         transport_type: 'beacon',
-        custom_map: {'metric1': 'LCP'}
+        custom_map: {'metric1': 'LCP'},
+        // Reduz impacto no performance
+        send_page_view: false,
+        anonymize_ip: true
       });
       
-      // Carregamento assíncrono não-bloqueante
+      // Carregamento super tardio do GA
       function loadAnalytics() {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5';
-        document.head.appendChild(script);
+        if (document.readyState === 'complete') {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5';
+          document.head.appendChild(script);
+          
+          // Envia page view manualmente após carregamento
+          script.onload = () => gtag('event', 'page_view');
+        }
       }
       
-      // Carrega analytics após o conteúdo principal
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadAnalytics);
-      } else {
-        setTimeout(loadAnalytics, 1000);
-      }
+      // Só carrega GA após interação do usuário ou 3s
+      let gaLoaded = false;
+      const loadGAOnce = () => {
+        if (!gaLoaded) {
+          gaLoaded = true;
+          loadAnalytics();
+        }
+      };
+      
+      ['click', 'scroll', 'keydown', 'touchstart'].forEach(event => {
+        document.addEventListener(event, loadGAOnce, { once: true, passive: true });
+      });
+      
+      setTimeout(loadGAOnce, 3000);
     </script>
   </body>
 </html>

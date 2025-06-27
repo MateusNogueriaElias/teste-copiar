@@ -1,22 +1,22 @@
 
-import { memo, lazy, Suspense } from 'react';
+import { memo, lazy, Suspense, useEffect, useState } from 'react';
 
-// Lazy load otimizado
+// Lazy load com preload inteligente
 const OptimizedHero = lazy(() => import('@/components/OptimizedHero'));
 const ServicesSection = lazy(() => import('@/components/ServicesSection'));
 const BenefitsSection = lazy(() => import('@/components/BenefitsSection'));
 const CTASection = lazy(() => import('@/components/CTASection'));
 
-// Skeleton mais leve
+// Skeleton super otimizado
 const SectionSkeleton = memo(() => (
   <div className="py-16 sm:py-32 bg-gradient-to-br from-orange-50 to-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="space-y-8">
-        <div className="h-8 bg-orange-200 rounded w-1/2 mx-auto"></div>
-        <div className="h-4 bg-orange-100 rounded w-3/4 mx-auto"></div>
+        <div className="h-8 bg-orange-200 rounded w-1/2 mx-auto animate-pulse"></div>
+        <div className="h-4 bg-orange-100 rounded w-3/4 mx-auto animate-pulse"></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-64 bg-orange-100 rounded-lg"></div>
+            <div key={i} className="h-64 bg-orange-100 rounded-lg animate-pulse"></div>
           ))}
         </div>
       </div>
@@ -27,6 +27,37 @@ const SectionSkeleton = memo(() => (
 SectionSkeleton.displayName = 'SectionSkeleton';
 
 const Home = memo(() => {
+  const [sectionsVisible, setSectionsVisible] = useState({
+    services: false,
+    benefits: false,
+    cta: false
+  });
+
+  useEffect(() => {
+    // Intersection Observer para lazy loading mais eficiente
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            setSectionsVisible(prev => ({ ...prev, [sectionId]: true }));
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { 
+        rootMargin: '100px', // Carrega um pouco antes de ficar visível
+        threshold: 0.1 
+      }
+    );
+
+    // Observa elementos placeholder
+    const placeholders = document.querySelectorAll('.section-placeholder');
+    placeholders.forEach(placeholder => observer.observe(placeholder));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section - Prioridade máxima */}
@@ -45,18 +76,32 @@ const Home = memo(() => {
         <OptimizedHero />
       </Suspense>
 
-      {/* Seções não críticas */}
-      <Suspense fallback={<SectionSkeleton />}>
-        <ServicesSection />
-      </Suspense>
+      {/* Placeholder para Services Section */}
+      <div id="services" className="section-placeholder" style={{ minHeight: '1px' }}>
+        {sectionsVisible.services && (
+          <Suspense fallback={<SectionSkeleton />}>
+            <ServicesSection />
+          </Suspense>
+        )}
+      </div>
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <BenefitsSection />
-      </Suspense>
+      {/* Placeholder para Benefits Section */}
+      <div id="benefits" className="section-placeholder" style={{ minHeight: '1px' }}>
+        {sectionsVisible.benefits && (
+          <Suspense fallback={<SectionSkeleton />}>
+            <BenefitsSection />
+          </Suspense>
+        )}
+      </div>
 
-      <Suspense fallback={<SectionSkeleton />}>
-        <CTASection />
-      </Suspense>
+      {/* Placeholder para CTA Section */}
+      <div id="cta" className="section-placeholder" style={{ minHeight: '1px' }}>
+        {sectionsVisible.cta && (
+          <Suspense fallback={<SectionSkeleton />}>
+            <CTASection />
+          </Suspense>
+        )}
+      </div>
     </div>
   );
 });

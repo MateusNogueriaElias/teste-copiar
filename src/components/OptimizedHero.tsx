@@ -1,24 +1,45 @@
 
-import { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Rocket, Sparkles, Zap, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const OptimizedHero = memo(() => {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
+  // Otimização: useCallback para evitar re-renders
+  const handleResize = useCallback(() => {
     setIsDesktop(window.innerWidth > 768);
   }, []);
 
+  useEffect(() => {
+    // Inicialização otimizada
+    handleResize();
+    setIsVisible(true);
+    
+    // Debounced resize listener
+    let timeoutId: NodeJS.Timeout;
+    const debouncedResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(handleResize, 150);
+    };
+    
+    window.addEventListener('resize', debouncedResize, { passive: true });
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+      clearTimeout(timeoutId);
+    };
+  }, [handleResize]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center particle-bg">
+    <section className={`relative min-h-screen flex items-center justify-center particle-bg transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div className="absolute inset-0 fire-gradient opacity-95"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/10"></div>
       
-      {/* Floating Elements - apenas em desktop */}
+      {/* Floating Elements - renderização condicional otimizada */}
       {isDesktop && (
-        <>
+        <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-16 sm:top-20 left-4 sm:left-10 animate-float">
             <Sparkles className="h-8 w-8 sm:h-16 sm:w-16 text-orange-200 opacity-60" />
           </div>
@@ -28,43 +49,61 @@ const OptimizedHero = memo(() => {
           <div className="absolute bottom-1/4 left-1/4 animate-float hidden sm:block" style={{ animationDelay: '4s' }}>
             <Target className="h-12 w-12 text-orange-200 opacity-50" />
           </div>
-        </>
+        </div>
       )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white hero-content">
-        <div>
-          {/* Badge otimizado */}
+        <div className="animate-fade-in-up">
+          {/* Badge otimizado com lazy loading de ícone */}
           <div className="inline-flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1.5 sm:px-6 sm:py-2 mb-6 sm:mb-8">
             <Sparkles className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-orange-200" />
             <span className="text-xs sm:text-sm font-medium">Agência Digital #1 em Resultados</span>
           </div>
           
-          {/* Título principal - LCP otimizado */}
+          {/* Título principal - otimizado para LCP */}
           <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
             Sua Empresa
             <span className="block text-orange-200 font-black">Dominando</span>
             <span className="block text-orange-100">a Internet</span>
           </h1>
           
-          {/* Subtítulo */}
+          {/* Subtítulo otimizado */}
           <p className="font-sans text-lg sm:text-xl md:text-3xl mb-8 sm:mb-12 max-w-4xl mx-auto font-light leading-relaxed px-4 sm:px-0">
             Criamos sites que não apenas impressionam, mas 
             <span className="font-bold text-orange-200"> transformam visitantes em clientes fiéis </span> 
             e fazem sua receita explodir
           </p>
           
-          {/* Botões otimizados */}
+          {/* Botões com preload de rota no hover */}
           <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 justify-center items-center px-4 sm:px-0">
-            <Link to="/contato" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-white text-fire-dark hover:bg-orange-50 hover:text-fire-primary px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold hover-lift hover-glow rounded-full shadow-2xl">
+            <Link 
+              to="/contato" 
+              className="w-full sm:w-auto group"
+              onMouseEnter={() => {
+                // Preload da página de contato no hover
+                if (isDesktop) {
+                  import('../../pages/Contato').catch(() => {});
+                }
+              }}
+            >
+              <Button size="lg" className="w-full sm:w-auto bg-white text-fire-dark hover:bg-orange-50 hover:text-fire-primary px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold hover-lift hover-glow rounded-full shadow-2xl transition-all duration-300">
                 <Rocket className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
                 <span className="hidden sm:inline">Começar Nosso Projeto</span>
                 <span className="sm:hidden">Começar Projeto</span>
                 <ArrowRight className="ml-2 sm:ml-3 h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
             </Link>
-            <Link to="/servicos" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-fire-primary px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold hover-lift rounded-full backdrop-blur-sm bg-transparent">
+            <Link 
+              to="/servicos" 
+              className="w-full sm:w-auto"
+              onMouseEnter={() => {
+                // Preload da página de serviços no hover
+                if (isDesktop) {
+                  import('../../pages/Servicos').catch(() => {});
+                }
+              }}
+            >
+              <Button variant="outline" size="lg" className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-fire-primary px-8 sm:px-12 py-4 sm:py-6 text-lg sm:text-xl font-bold hover-lift rounded-full backdrop-blur-sm bg-transparent transition-all duration-300">
                 <span className="hidden sm:inline">Ver Cases de Sucesso</span>
                 <span className="sm:hidden">Ver Cases</span>
               </Button>

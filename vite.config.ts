@@ -26,48 +26,83 @@ export default defineConfig(({ mode }) => ({
     },
   },
 
-  // Otimizações agressivas para performance
+  // Build otimizado para máxima performance
   build: {
     target: 'esnext',
     minify: 'esbuild',
+    cssMinify: 'esbuild',
+    reportCompressedSize: false, // Reduz tempo de build
     rollupOptions: {
       output: {
+        // Chunks manuais super otimizados
         manualChunks: {
-          // Vendor chunk otimizado
-          'react-vendor': ['react', 'react-dom'],
-          'router': ['react-router-dom'],
-          // UI components em chunk separado
-          'ui-components': ['lucide-react'],
-          // Radix UI components
+          // Core React separado
+          'react-core': ['react', 'react-dom'],
+          // Router isolado
+          'react-router': ['react-router-dom'],
+          // UI components principais
+          'ui-core': ['lucide-react', '@radix-ui/react-slot'],
+          // Radix UI components secundários
           'radix-ui': [
-            '@radix-ui/react-slot',
             '@radix-ui/react-dialog',
-            '@radix-ui/react-popover'
+            '@radix-ui/react-popover',
+            '@radix-ui/react-toast'
           ],
+          // TanStack Query isolado
+          'react-query': ['@tanstack/react-query'],
+          // Pages não-críticas
+          'pages-secondary': [
+            './src/pages/Servicos',
+            './src/pages/Sobre',
+            './src/pages/Contato'
+          ]
         },
+        // Otimização de nomes de chunks
+        chunkFileNames: (chunkInfo) => {
+          if (chunkInfo.name === 'react-core') return 'assets/react-[hash].js';
+          if (chunkInfo.name === 'ui-core') return 'assets/ui-[hash].js';
+          return 'assets/[name]-[hash].js';
+        },
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
-      // Tree shaking mais agressivo
+      // Tree shaking ultra agressivo
       treeshake: {
         moduleSideEffects: false,
         propertyReadSideEffects: false,
         unknownGlobalSideEffects: false,
+        tryCatchDeoptimization: false,
       },
     },
   },
 
-  // Otimizações de dependencies para reduzir JavaScript não utilizado
+  // Deps otimização melhorada
   optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom'],
-    exclude: ['lucide-react'], // Lazy load apenas os ícones necessários
+    include: [
+      'react', 
+      'react-dom', 
+      'react-router-dom',
+      '@radix-ui/react-slot'
+    ],
+    exclude: [
+      'lucide-react', // Lazy load apenas ícones necessários
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-popover'
+    ],
   },
 
-  // Configurações para reduzir CSS blocking
+  // CSS otimizado
   css: {
+    devSourcemap: false,
     preprocessorOptions: {
       scss: {
-        // Remove CSS não utilizado
         outputStyle: 'compressed',
       },
     },
+  },
+
+  // Experimentais para performance
+  esbuild: {
+    drop: mode === 'production' ? ['console', 'debugger'] : [],
+    legalComments: 'none',
   },
 }));
