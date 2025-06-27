@@ -2,17 +2,8 @@
 import { createRoot } from 'react-dom/client';
 import { lazy, Suspense } from 'react';
 
-// Lazy load otimizado com preload inteligente
-const App = lazy(() => 
-  import('./App.tsx').then(module => {
-    // Preload apenas componentes críticos
-    if (window.innerWidth > 768) {
-      // Desktop: preload componentes visuais
-      import('./components/OptimizedHero.tsx');
-    }
-    return module;
-  })
-);
+// Lazy load otimizado
+const App = lazy(() => import('./App.tsx'));
 
 // Loading minimalista para reduzir TBT
 const Loading = () => (
@@ -36,32 +27,3 @@ root.render(
     <App />
   </Suspense>
 );
-
-// Preload inteligente baseado em conexão
-const preloadSecondaryComponents = () => {
-  // Verifica se a conexão é boa antes de preload
-  const connection = (navigator as any).connection;
-  const isSlowConnection = connection && (connection.effectiveType === '2g' || connection.effectiveType === '3g');
-  
-  if (!isSlowConnection) {
-    // Preload componentes não-críticos apenas em conexões boas
-    const preloadPromises = [
-      import('./pages/Servicos'),
-      import('./pages/Sobre'), 
-      import('./pages/Contato')
-    ];
-    
-    // Preload sequencial para evitar sobrecarga
-    preloadPromises.reduce((prev, curr) => 
-      prev.then(() => new Promise(resolve => setTimeout(resolve, 100))).then(() => curr),
-      Promise.resolve()
-    );
-  }
-};
-
-// Executa preload após idle time
-if ('requestIdleCallback' in window) {
-  requestIdleCallback(preloadSecondaryComponents, { timeout: 3000 });
-} else {
-  setTimeout(preloadSecondaryComponents, 2000);
-}

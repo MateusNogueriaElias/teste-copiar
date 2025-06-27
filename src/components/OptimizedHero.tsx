@@ -1,32 +1,34 @@
 
-import { memo, lazy, Suspense } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Rocket, Sparkles } from 'lucide-react';
+import { ArrowRight, Rocket, Sparkles, Zap, Target } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Lazy load apenas ícones não-críticos
-const LazyZap = lazy(() => import('lucide-react').then(module => ({ default: module.Zap })));
-const LazyTarget = lazy(() => import('lucide-react').then(module => ({ default: module.Target })));
-
 const OptimizedHero = memo(() => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsDesktop(window.innerWidth > 768);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center particle-bg">
       <div className="absolute inset-0 fire-gradient opacity-95"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/10"></div>
       
-      {/* Floating Elements - lazy load apenas em desktop */}
-      {window.innerWidth > 768 && (
-        <Suspense fallback={null}>
+      {/* Floating Elements - apenas em desktop */}
+      {isDesktop && (
+        <>
           <div className="absolute top-16 sm:top-20 left-4 sm:left-10 animate-float">
             <Sparkles className="h-8 w-8 sm:h-16 sm:w-16 text-orange-200 opacity-60" />
           </div>
           <div className="absolute top-1/3 right-8 sm:right-20 animate-float" style={{ animationDelay: '2s' }}>
-            <LazyZap className="h-10 w-10 sm:h-20 sm:w-20 text-white opacity-40" />
+            <Zap className="h-10 w-10 sm:h-20 sm:w-20 text-white opacity-40" />
           </div>
           <div className="absolute bottom-1/4 left-1/4 animate-float hidden sm:block" style={{ animationDelay: '4s' }}>
-            <LazyTarget className="h-12 w-12 text-orange-200 opacity-50" />
+            <Target className="h-12 w-12 text-orange-200 opacity-50" />
           </div>
-        </Suspense>
+        </>
       )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white hero-content">

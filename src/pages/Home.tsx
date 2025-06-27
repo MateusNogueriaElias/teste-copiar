@@ -45,7 +45,7 @@ const Home = memo(() => {
         <OptimizedHero />
       </Suspense>
 
-      {/* Seções não críticas - carregamento lazy inteligente */}
+      {/* Seções não críticas */}
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>
