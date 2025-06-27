@@ -1,54 +1,51 @@
 
 import { memo, lazy, Suspense } from 'react';
 
-// Lazy load dos componentes não críticos
-const ScrollReveal = lazy(() => import('@/components/ScrollReveal'));
+// Lazy load otimizado dos componentes
 const OptimizedHero = lazy(() => import('@/components/OptimizedHero'));
-
-// Lazy load das seções não críticas
 const ServicesSection = lazy(() => import('@/components/ServicesSection'));
 const BenefitsSection = lazy(() => import('@/components/BenefitsSection'));
 const CTASection = lazy(() => import('@/components/CTASection'));
 
-// Componente de loading simples
-const SectionSkeleton = () => (
+// Skeleton otimizado para não impactar CLS
+const SectionSkeleton = memo(() => (
   <div className="py-16 sm:py-32 bg-gradient-to-br from-orange-50 to-white">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="animate-pulse space-y-8">
-        <div className="h-8 bg-orange-200 rounded w-1/2 mx-auto"></div>
-        <div className="h-4 bg-orange-100 rounded w-3/4 mx-auto"></div>
+      <div className="space-y-8">
+        <div className="h-8 bg-orange-200 rounded w-1/2 mx-auto loading-skeleton"></div>
+        <div className="h-4 bg-orange-100 rounded w-3/4 mx-auto loading-skeleton"></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-64 bg-orange-100 rounded-lg"></div>
+            <div key={i} className="h-64 bg-orange-100 rounded-lg loading-skeleton"></div>
           ))}
         </div>
       </div>
     </div>
   </div>
-);
+));
+
+SectionSkeleton.displayName = 'SectionSkeleton';
 
 const Home = memo(() => {
   return (
     <div className="overflow-hidden">
-      {/* Hero Section - Carrega primeiro para melhorar LCP */}
+      {/* Hero Section - Prioridade máxima para LCP */}
       <Suspense fallback={
         <section className="relative min-h-screen flex items-center justify-center fire-gradient">
           <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative z-10 max-w-7xl mx-auto px-4 text-center text-white">
-            <div className="animate-pulse">
-              <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
-                Sua Empresa
-                <span className="block text-orange-200 font-black">Dominando</span>
-                <span className="block text-orange-100">a Internet</span>
-              </h1>
-            </div>
+          <div className="relative z-10 max-w-7xl mx-auto px-4 text-center text-white hero-content">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
+              Sua Empresa
+              <span className="block text-orange-200 font-black">Dominando</span>
+              <span className="block text-orange-100">a Internet</span>
+            </h1>
           </div>
         </section>
       }>
         <OptimizedHero />
       </Suspense>
 
-      {/* Seções não críticas - Lazy loaded */}
+      {/* Seções não críticas com Intersection Observer para lazy loading */}
       <Suspense fallback={<SectionSkeleton />}>
         <ServicesSection />
       </Suspense>

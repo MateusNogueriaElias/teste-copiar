@@ -2,7 +2,7 @@
 /* CSS não-crítico - carrega após o inicial */
 @import "./fonts.css";
 @tailwind base;
-@tailwind components;
+@tailwind components; 
 @tailwind utilities;
 
 /* Variáveis CSS completas */
@@ -28,6 +28,12 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
+    
+    /* Fire colors - mantém cores originais */
+    --fire-primary: #f54e01;
+    --fire-secondary: #e53b01;
+    --fire-accent: #feb800;
+    --fire-dark: #8b2500;
   }
 
   .dark {
@@ -62,7 +68,7 @@
   }
 }
 
-/* Utilities não críticos */
+/* Utilities - mantém todas as cores e gradientes originais */
 @layer utilities {
   .fire-gradient-reverse {
     background: linear-gradient(135deg, #feb800 0%, #e53b01 50%, #f54e01 100%);
@@ -91,7 +97,7 @@
     background-clip: text;
   }
 
-  /* Glassmorphism otimizado */
+  /* Glassmorphism otimizado com will-change */
   .glass-morphism {
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(245, 78, 1, 0.15);
@@ -101,10 +107,12 @@
   @media (min-width: 768px) {
     .glass-morphism {
       backdrop-filter: blur(16px) saturate(150%);
+      will-change: backdrop-filter;
     }
     
     .glass-card {
       backdrop-filter: blur(12px) saturate(150%);
+      will-change: backdrop-filter;
     }
   }
 
@@ -115,15 +123,17 @@
   }
 }
 
-/* Animações otimizadas - carregam após o crítico */
+/* Animações otimizadas com will-change e transform3d */
 .animate-float {
   animation: float 6s ease-in-out infinite;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
 }
 
 .animate-pulse-glow {
   animation: pulseGlow 4s ease-in-out infinite;
   will-change: transform, box-shadow;
+  transform: translate3d(0, 0, 0);
 }
 
 .animate-fade-in-up {
@@ -151,7 +161,7 @@
   will-change: transform;
 }
 
-/* Keyframes */
+/* Keyframes otimizados com transform3d */
 @keyframes float {
   0%, 100% { transform: translate3d(0, 0px, 0) rotate(0deg); }
   25% { transform: translate3d(0, -8px, 0) rotate(0.5deg); }
@@ -213,7 +223,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* Hover effects */
+/* Hover effects otimizados */
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
@@ -234,7 +244,7 @@
   transform: scale3d(1.03, 1.03, 1);
 }
 
-/* Particle background */
+/* Particle background otimizado */
 .particle-bg {
   position: relative;
   overflow: hidden;
@@ -261,7 +271,7 @@
   66% { transform: translate3d(-15px, 15px, 0) rotate(180deg); }
 }
 
-/* Scroll reveal */
+/* Scroll reveal otimizado */
 .scroll-reveal {
   opacity: 0;
   transform: translate3d(0, 20px, 0);
@@ -274,23 +284,25 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Otimizações para mobile */
+/* Otimizações específicas para mobile - reduz animações pesadas */
 @media (max-width: 767px) {
   .animate-float,
   .animate-pulse-glow,
   .animate-bounce-subtle,
   .animate-rotate-slow {
-    animation: none;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
   
   .hover-lift:hover,
   .hover-glow:hover {
     transform: none;
-    box-shadow: none;
+    box-shadow: initial;
   }
   
   .particle-bg::before {
-    display: none;
+    animation: none;
+    opacity: 0.3;
   }
 }
 
@@ -303,3 +315,16 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Tailwind custom cores - mantém exatamente como estava */
+.text-fire-primary { color: var(--fire-primary); }
+.text-fire-secondary { color: var(--fire-secondary); }
+.text-fire-accent { color: var(--fire-accent); }
+.text-fire-dark { color: var(--fire-dark); }
+.bg-fire-primary { background-color: var(--fire-primary); }
+.bg-fire-secondary { background-color: var(--fire-secondary); }
+.bg-fire-accent { background-color: var(--fire-accent); }
+.bg-fire-dark { background-color: var(--fire-dark); }
+.border-fire-primary { border-color: var(--fire-primary); }
+.hover\\:bg-fire-primary:hover { background-color: var(--fire-primary); }
+.hover\\:text-fire-primary:hover { color: var(--fire-primary); }

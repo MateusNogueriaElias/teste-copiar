@@ -17,17 +17,18 @@
     <meta name="twitter:site" content="@firedominios" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
      
-    <!-- Preload fontes críticas - prioridade alta -->
-    <link rel="preload" href="/fonts/poppins-v23-latin-700.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/poppins-v23-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Preload fontes críticas - maior prioridade -->
+    <link rel="preload" href="/fonts/poppins-v23-latin-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/inter-v19-latin-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/poppins-v23-latin-600.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     
-    <!-- Preload CSS crítico -->
-    <link rel="preload" href="/src/critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- DNS prefetch para recursos externos -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
     
-    <!-- CSS Crítico Inline para FCP mais rápido -->
+    <!-- CSS Crítico Inline - melhora FCP drasticamente -->
     <style>
-      /* CSS crítico inline - carrega instantaneamente */
+      /* Fontes críticas inline */
       @font-face {
         font-family: 'Poppins';
         font-style: normal;
@@ -50,41 +51,37 @@
         src: url('/fonts/poppins-v23-latin-600.woff2') format('woff2');
       }
       
-      /* Variáveis CSS críticas */
-      :root {
-        --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
-        --primary: 222.2 47.4% 11.2%;
-        --primary-foreground: 210 40% 98%;
-      }
-      
-      /* Reset básico crítico */
+      /* Reset crítico */
       *, *::before, *::after {
         box-sizing: border-box;
         border-width: 0;
         border-style: solid;
-        border-color: theme(borderColor.DEFAULT, currentColor);
+        border-color: currentColor;
       }
       
-      html { line-height: 1.5; -webkit-text-size-adjust: 100%; tab-size: 4; font-family: ui-sans-serif, system-ui, sans-serif; font-feature-settings: normal; font-variation-settings: normal; -webkit-tap-highlight-color: transparent; }
-      body { margin: 0; line-height: inherit; }
+      html { 
+        line-height: 1.5; 
+        -webkit-text-size-adjust: 100%; 
+        tab-size: 4; 
+        font-family: ui-sans-serif, system-ui, sans-serif; 
+      }
       
-      /* Estilos críticos para o primeiro conteúdo visível */
-      body {
+      body { 
+        margin: 0; 
+        line-height: inherit; 
         font-family: 'Inter', sans-serif;
         background: linear-gradient(135deg, #FFFAF7 0%, #FFF7F1 50%, #FFEDE1 100%);
         background-attachment: fixed;
       }
       
+      /* Fire gradient crítico - exatamente como no original */
       .fire-gradient {
         background: linear-gradient(135deg, #f54e01 0%, #e53b01 50%, #feb800 100%);
         box-shadow: 0 15px 35px rgba(245, 78, 1, 0.25);
+        transform: translate3d(0, 0, 0);
       }
       
-      .font-poppins { font-family: 'Poppins', sans-serif; }
-      .font-inter { font-family: 'Inter', sans-serif; }
-      
-      /* Classes Tailwind críticas para o hero */
+      /* Classes Tailwind críticas para LCP */
       .min-h-screen { min-height: 100vh; }
       .flex { display: flex; }
       .items-center { align-items: center; }
@@ -96,13 +93,19 @@
       .text-center { text-align: center; }
       .text-white { color: rgb(255 255 255); }
       .font-bold { font-weight: 700; }
-      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
-      .mb-6 { margin-bottom: 1.5rem; }
+      .font-poppins { font-family: 'Poppins', sans-serif; }
       .leading-tight { line-height: 1.25; }
-      .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
       .mx-auto { margin-left: auto; margin-right: auto; }
       .max-w-7xl { max-width: 80rem; }
       .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+      .mb-6 { margin-bottom: 1.5rem; }
+      .mb-8 { margin-bottom: 2rem; }
+      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+      .block { display: block; }
+      .text-orange-200 { color: rgb(254 215 170); }
+      .text-orange-100 { color: rgb(255 237 213); }
+      .font-black { font-weight: 900; }
       
       /* Media queries críticas */
       @media (min-width: 640px) {
@@ -121,35 +124,49 @@
         .lg\\:px-8 { padding-left: 2rem; padding-right: 2rem; }
       }
       
-      /* Skeleton para carregamento suave */
-      .hero-skeleton {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      /* Previne CLS do hero */
+      .hero-content {
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: .5; }
+      /* Loading otimizado */
+      .loading-skeleton {
+        background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+      }
+      
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
       }
     </style>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5"></script>
+    <!-- Google Analytics - carregamento otimizado -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-WLKKCMQEZ5');
+      gtag('config', 'G-WLKKCMQEZ5', {
+        page_title: 'Fire Domínios - Home',
+        custom_map: {'metric1': 'LCP'}
+      });
     </script>
   </head>
 
   <body>
-    <!-- Skeleton do hero para melhorar FCP -->
-    <div id="hero-skeleton" class="min-h-screen flex items-center justify-center relative fire-gradient">
-      <div class="absolute inset-0 bg-black opacity-20"></div>
-      <div class="relative z-10 max-w-7xl mx-auto px-4 text-center text-white">
-        <div class="hero-skeleton">
+    <!-- Hero skeleton para melhor LCP - mantém layout exato -->
+    <div id="hero-skeleton" class="min-h-screen flex items-center justify-center fire-gradient">
+      <div class="absolute inset-0 bg-black" style="opacity: 0.2;"></div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 text-center text-white hero-content">
+        <div class="loading-skeleton" style="background: transparent;">
           <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold font-poppins mb-6 sm:mb-8 leading-tight px-2 sm:px-0">
-            Sua Empresa Dominando a Internet
+            Sua Empresa
+            <span class="block text-orange-200 font-black">Dominando</span>
+            <span class="block text-orange-100">a Internet</span>
           </h1>
         </div>
       </div>
@@ -157,50 +174,39 @@
     
     <div id="root"></div>
     
-    <!-- Script principal - carrega de forma otimizada -->
+    <!-- Script principal otimizado -->
     <script>
-      // Remove skeleton quando React carregar
-      window.addEventListener('DOMContentLoaded', function() {
-        const heroSkeleton = document.getElementById('hero-skeleton');
-        const root = document.getElementById('root');
-        
-        // Observer para remover skeleton quando conteúdo real aparecer
-        const observer = new MutationObserver(function(mutations) {
-          if (root.children.length > 0) {
-            if (heroSkeleton) {
-              heroSkeleton.style.display = 'none';
-            }
-            observer.disconnect();
-          }
-        });
-        
-        observer.observe(root, { childList: true, subtree: true });
-        
-        // Fallback: remove skeleton após 3 segundos
-        setTimeout(function() {
-          if (heroSkeleton) {
+      // Remove skeleton quando React carregar - melhora LCP
+      const heroSkeleton = document.getElementById('hero-skeleton');
+      const root = document.getElementById('root');
+      
+      // Observer otimizado para melhor performance
+      const observer = new MutationObserver(function(mutations) {
+        for (let mutation of mutations) {
+          if (mutation.type === 'childList' && root.children.length > 0) {
             heroSkeleton.style.display = 'none';
+            observer.disconnect();
+            break;
           }
-        }, 3000);
+        }
       });
+      
+      observer.observe(root, { childList: true });
+      
+      // Fallback mais agressivo
+      setTimeout(function() {
+        if (heroSkeleton) heroSkeleton.style.display = 'none';
+      }, 1500);
     </script>
     
+    <!-- Analytics otimizado - não bloqueia render -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WLKKCMQEZ5"></script>
+    
+    <!-- Módulo principal -->
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Carrega CSS não-crítico de forma assíncrona -->
-    <script>
-      function loadCSS(href, onload) {
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
-        if (onload) link.onload = onload;
-        document.head.appendChild(link);
-      }
-      
-      // Carrega CSS não-crítico após o carregamento inicial
-      window.addEventListener('load', function() {
-        loadCSS('/src/index.css');
-      });
-    </script>
+    <!-- CSS não-crítico com preload -->
+    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
   </body>
 </html>
